@@ -1,0 +1,25 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Excel-Parser</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+  table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  }
+  th, td {
+    border-color: #96D4D4;
+  }
+</style>
+<nav>
+  <h1>Excel parser</h1>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash" style="color: brown; padding-bottom: 20px;">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>

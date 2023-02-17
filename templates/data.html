@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block header %}    
+<h1>{% block title %}Выгрузка данных {% endblock %}</h1>   
+{% endblock %}
+
+{% block content %}
+<form method="post" action ="/data" enctype="multipart/form-data">
+    <label for="date">Выберите дату:</label>
+    <input type="date" id="date" name="date" required pattern="\d{4}-\d{2}-\d{2}">
+    <input type="submit" value="Получить">
+</form>
+
+{% if data%}
+{% set totals_fact_oliq = [] %}
+{% set totals_fact_ooil = [] %}
+{% set totals_forecast_oliq = [] %}
+{% set totals_forecast_ooil = [] %}
+<table cellpadding="4" cellspacing="0">
+    <tr>
+        <th rowspan="3">ID</th>
+        <th rowspan="3">Company</th>
+        <th colspan="4">Fact</th>
+        <th colspan="4">Forecast</th>
+        <th rowspan="3">Create date</th>
+    </tr>
+    <tr>
+        <th colspan="2">Oliq</th>
+        <th colspan="2">Ooil</th>
+        <th colspan="2">Oliq</th>
+        <th colspan="2">Ooil</th>
+    </tr>
+    <tr>
+        <th>date1</th>
+        <th>date2</th>
+        <th>date1</th>
+        <th>date2</th>
+        <th>date1</th>
+        <th>date2</th>
+        <th>date1</th>
+        <th>date2</th>
+    </tr>
+    {% for item in data %}
+    {% if totals_fact_oliq.append(item.fact_oliq_d1 + item.fact_oliq_d2) %}{% endif %}
+    {% if totals_fact_ooil.append(item.fact_ooil_d1 + item.fact_ooil_d2) %}{% endif %}
+    {% if totals_forecast_oliq.append(item.forecast_oliq_d1 + item.forecast_oliq_d2) %}{% endif %}
+    {% if totals_forecast_ooil.append(item.forecast_ooil_d1 + item.forecast_ooil_d2) %}{% endif %}
+    <tr>
+        <td>{{item.id}}</td>
+        <td>{{item.company}}</td>  
+        <td>{{item.fact_oliq_d1}}</td> 
+        <td>{{item.fact_oliq_d2}}</td>  
+        <td>{{item.fact_ooil_d1}}</td>  
+        <td>{{item.fact_ooil_d2}}</td> 
+        <td>{{item.forecast_oliq_d1}}</td>  
+        <td>{{item.forecast_oliq_d2}}</td>  
+        <td>{{item.forecast_ooil_d1}}</td>  
+        <td>{{item.forecast_ooil_d2}}</td>
+        <td>{{item.create_at}}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <th colspan="2">Всего:</th>
+        <th colspan="2">{{ '%0.0f' | format(totals_fact_oliq | sum) }}</th>
+        <th colspan="2">{{ '%0.0f' | format(totals_fact_ooil | sum) }}</th>
+        <th colspan="2">{{ '%0.0f' | format(totals_forecast_oliq | sum) }}</th>
+        <th colspan="2">{{ '%0.0f' | format(totals_forecast_ooil | sum) }}</th>
+        <th></th>
+    </tr>
+</table> 
+{%endif%}
+{% endblock %}
