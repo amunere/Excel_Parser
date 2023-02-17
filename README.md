@@ -1,5 +1,5 @@
 # Excel_Parser
-##Flask, ##PostgreSQL
+Flask, PostgreSQL
 
 #ТЗ
 Создать парсер excel файла (во вложении) на Python.
